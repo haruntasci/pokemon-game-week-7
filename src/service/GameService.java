@@ -184,9 +184,15 @@ public class GameService implements IGameService {
         int attackerPokemonRemainingRights = attackingPokemon.getSpecialPower().getRemainingRights();
         int attackerCharacterRemainingRights = attacker.getCharacter().getSpecialPower().getRemainingRights();
 
-        boolean specialAttack = isPokeSpecialAttack && isCharSpecialAttack ?
-                (attackerPokemonRemainingRights > 0 && attackerCharacterRemainingRights > 0) :
-                (isPokeSpecialAttack ? attackerPokemonRemainingRights > 0 : attackerCharacterRemainingRights > 0);
+
+        boolean specialAttack = false;
+        if (isPokeSpecialAttack && isCharSpecialAttack) {
+            specialAttack = attackerPokemonRemainingRights > 0 && attackerCharacterRemainingRights > 0;
+        } else if (isPokeSpecialAttack) {
+            specialAttack = attackerPokemonRemainingRights > 0;
+        } else if (isCharSpecialAttack) {
+            specialAttack = attackerCharacterRemainingRights > 0;
+        }
 
         int damage = calculateDamage(attackingPokemon, attacker, isPokeSpecialAttack, isCharSpecialAttack, specialAttack);
 
